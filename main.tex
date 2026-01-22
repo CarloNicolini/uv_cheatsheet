@@ -1,0 +1,182 @@
+\documentclass[9pt]{article}
+\usepackage[a4paper,landscape,margin=0.3in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{pmboxdraw}
+
+% Colors
+\definecolor{astralblue}{HTML}{007ACC}
+\definecolor{codebg}{gray}{0.95} % Defined here
+
+% Styling
+\pagestyle{empty}
+\setlength{\columnsep}{0.25in}
+
+\titleformat{\section}{\color{astralblue}\normalfont\normalsize\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+
+\newcommand{\cmd}[1]{\texttt{\textbf{#1}}}
+\newcommand{\desc}[1]{\textit{#1}}
+\begin{document}
+
+\begin{center}
+    {\Huge \textbf{\color{astralblue} astral/uv Cheatsheet}} \\
+    {\Huge \textbf{\color{astralblue}} {\small The ultra-fast Python package manager, resolver, and installer} \\
+    {\small \url{github.com/carlonicolini/uv\_cheatsheet}}} \\
+    {\small \today }
+\end{center}
+
+\begin{multicols*}{3}
+
+\section{Project Lifecycle}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{uv init} \desc{Create a new project (app)}
+    \item \cmd{uv init --lib} \desc{Create a library project}
+    \item \cmd{uv sync} \desc{Install deps and sync lockfile}
+    \item \cmd{uv lock} \desc{Generate/update uv.lock}
+    \item \cmd{uv tree} \desc{View dependency graph}
+    \item \cmd{uv build} \desc{Build sdist and wheel}
+    \item \cmd{uv publish} \desc{Upload to PyPI}
+\end{itemize}
+
+\section{Dependency Management}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{uv add <pkg>} \desc{Add dependency}
+    \item \cmd{uv add --dev <pkg>} \desc{Add dev dependency}
+    \item \cmd{uv add --optional <group>} \desc{Add extra}
+    \item \cmd{uv remove <pkg>} \desc{Remove dependency}
+    \item \cmd{uv lock --upgrade} \desc{Update all deps}
+    \item \cmd{uv export --format requirements-txt}
+\end{itemize}
+
+\section{Python Management}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{uv python install <v>} \desc{Install Python}
+    \item \cmd{uv python list} \desc{List available versions}
+    \item \cmd{uv python pin <v>} \desc{Pin version for dir}
+    \item \cmd{uv python find} \desc{Locate interpreter}
+    \item \cmd{uv python uninstall <v>} \desc{Remove ver}
+\end{itemize}
+
+\section{Running \& Scripts}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{uv run <file.py>} \desc{Run in project env}
+    \item \cmd{uv run <cmd>} \desc{Run tool in env}
+    \item \cmd{uv run --with <pkg>} \desc{Ephemeral dep}
+    \item \cmd{uvx <tool>} \desc{Install + run tool (ephemeral)}
+    \item \cmd{uv tool install <pkg>} \desc{Global install}
+\end{itemize}
+
+\section{Workspaces (Monorepos)}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{uv sync --all-packages} \desc{Sync whole repo}
+    \item \cmd{uv run --package <name>} \desc{Run for member}
+    \item \cmd{uv tree --package <name>} \desc{Specific tree}
+\end{itemize}
+
+\section{Legacy Pip Support}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{uv pip install -r reqs.txt} \desc{Fast install}
+    \item \cmd{uv pip compile} \desc{Lock reqs.txt}
+    \item \cmd{uv pip list} \desc{List env packages}
+    \item \cmd{uv pip freeze} \desc{Output installed pkgs}
+    \item \cmd{uv venv} \desc{Manual virtualenv creation}
+\end{itemize}
+
+\section{Environment Variables}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{UV\_PYTHON} \desc{Set default interpreter}
+    \item \cmd{UV\_INDEX\_URL} \desc{Primary index URL}
+    \item \cmd{UV\_CACHE\_DIR} \desc{Change cache path}
+    \item \cmd{UV\_OFFLINE=1} \desc{No network access}
+    \item \cmd{UV\_NO\_CACHE=1} \desc{Disable caching}
+\end{itemize}
+
+\section{Advanced Specifiers}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{uv add "pkg>=1.2"} \desc{Ver constraint}
+    \item \cmd{uv add "git+https://..."} \desc{Git source}
+    \item \cmd{uv add "./path"} \desc{Local dependency}
+    \item \cmd{uv add --raw-sources} \desc{Direct URLs}
+\end{itemize}
+
+\section{Common Flags}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{--frozen} \desc{Error if lockfile changes}
+    \item \cmd{--no-sync} \desc{Skip env sync after lock}
+    \item \cmd{--all-extras} \desc{Install all optional deps}
+    \item \cmd{--system} \desc{Target system site-pkgs}
+\end{itemize}
+
+\section{Maintenance}
+\begin{itemize}[leftmargin=*,labelsep=4pt,itemsep=1pt]
+    \item \cmd{uv self update} \desc{Update uv binary}
+    \item \cmd{uv cache clean} \desc{Clear all cache}
+    \item \cmd{uv cache prune} \desc{Remove old cache}
+    \item \cmd{uv help <cmd>} \desc{Command documentation}
+\end{itemize}
+
+\vfill
+\hrule
+\vspace{4pt}
+\begin{center}
+    \small \textbf{Project Files:} \texttt{pyproject.toml} (Meta/Deps) \texttt{uv.lock} (Deterministic) \texttt{.python-version} (Pinned)
+\end{center}
+
+\section{Example: pyproject.toml (Library with CLI)}
+\begin{tcolorbox}[colback=codebg, colframe=astralblue!20, size=small, arc=0pt, boxrule=0.5pt]
+\begin{verbatim}
+[project]
+name = "my-cool-lib"
+version = "0.1.0"
+description = "my python library"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.3.0",
+]
+
+[project.scripts]
+my-cli = "my_cool_lib.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = ["pytest-cov"]
+\end{verbatim}
+\end{tcolorbox}
+
+% \section{Project Structure}
+% \begin{tcolorbox}[colback=codebg, colframe=astralblue!20, size=small, arc=0pt, boxrule=0.5pt]
+% \begin{verbatim}
+% my-cool-lib/
+% |-- pyproject.toml
+% |-- uv.lock
+% |-- src/
+% |   `-- my_cool_lib/
+% |       |-- __init__.py
+% |       |-- cli.py       <-- Entry point
+% |       `-- submodules/  <-- Submodules
+% |           |-- __init__.py
+% |           `-- utils.py
+% `-- tests/
+% \end{verbatim}
+% \end{tcolorbox}
+
+\end{multicols*}
+\end{document}
